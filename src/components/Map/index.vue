@@ -26,7 +26,10 @@
       </el-form-item>
       <el-form-item label="设备地图:">
         <!-- TODO @super：这里看看 unocss 哈 -->
-        <div id="bdMap" class="mapContainer"></div>
+        <!-- 百度地图暂时禁用 -->
+        <div id="bdMap" class="mapContainer"
+          ><el-alert title="百度地图功能暂时禁用" type="warning" :closable="false"
+        /></div>
       </el-form-item>
     </el-form>
   </div>
@@ -34,7 +37,10 @@
     <el-descriptions :column="2" border :labelStyle="{ 'font-weight': 'bold' }">
       <el-descriptions-item label="设备位置:">{{ state.address }}</el-descriptions-item>
     </el-descriptions>
-    <div id="bdMap" class="mapContainer"></div>
+    <!-- 百度地图暂时禁用 -->
+    <div id="bdMap" class="mapContainer"
+      ><el-alert title="百度地图功能暂时禁用" type="warning" :closable="false"
+    /></div>
   </div>
 </template>
 
@@ -71,13 +77,15 @@ const props = defineProps({
   center: propTypes.string.def('')
 })
 
-/** 加载百度地图 */
+/** 加载百度地图 - 暂时禁用 */
 const loadMap = () => {
   state.address = ''
   state.latitude = ''
   state.longitude = ''
 
   // 创建百度地图 API 脚本，动态加载
+  // 百度地图暂时禁用，注释掉API加载
+  /*
   const script = document.createElement('script')
   script.src = `https://api.map.baidu.com/api?v=1.0&type=webgl&ak=${
     import.meta.env.VITE_BAIDU_MAP_KEY
@@ -107,10 +115,13 @@ const loadMap = () => {
       regeoCode(props.center)
     }
   }
+  */
 }
 
 /** 初始化地图 */
 const initMap = () => {
+  // 百度地图暂时禁用，注释地图初始化
+  /*
   const mapId = 'bdMap'
   state.map = new window.BMapGL.Map(mapId)
   // TODO @super：这个是默认的哇？
@@ -122,19 +133,26 @@ const initMap = () => {
   state.map.addControl(new window.BMapGL.NavigationControl())
   state.map.addControl(new window.BMapGL.ScaleControl())
   state.map.addControl(new window.BMapGL.ZoomControl())
+  */
 }
 
 /** 初始化地理编码器 */
 const initGeocoder = () => {
+  // 百度地图暂时禁用，注释地理编码器初始化
+  /*
   state.geocoder = new window.BMapGL.Geocoder()
+  */
 }
 
 /** 初始化自动完成 */
 const initAutoComplete = () => {
+  // 百度地图暂时禁用，注释自动完成初始化
+  /*
   state.autoComplete = new window.BMapGL.Autocomplete({
     input: 'searchInput',
     location: state.map
   })
+  */
 }
 
 /**
@@ -147,6 +165,10 @@ const autoSearch = (queryValue: string) => {
     return
   }
 
+  state.loading = false
+  state.mapAddrOptions = []
+  // 百度地图暂时禁用，注释地址搜索功能
+  /*
   state.loading = true
 
   // 使用百度地图地点检索服务
@@ -173,6 +195,7 @@ const autoSearch = (queryValue: string) => {
   })
 
   localSearch.search(queryValue)
+  */
 }
 
 /**
@@ -193,6 +216,8 @@ const handleAddressSelect = (value: string) => {
 const setMarker = (lnglat: any) => {
   if (!lnglat) return
 
+  // 百度地图暂时禁用，注释标记点添加
+  /*
   // 如果点标记已存在则先移除原点
   if (state.mapMarker !== null) {
     state.map.removeOverlay(state.mapMarker)
@@ -206,6 +231,7 @@ const setMarker = (lnglat: any) => {
   // 添加点标记到地图
   state.map.addOverlay(state.mapMarker)
   state.map.centerAndZoom(point, 16)
+  */
 }
 
 /**
@@ -227,6 +253,8 @@ const regeoCode = (lonLat: string) => {
   emits('locateChange', lnglat)
   emits('update:center', lonLat)
 
+  // 百度地图暂时禁用，注释地图相关操作
+  /*
   // 先将地图中心点设置到目标位置
   const point = new window.BMapGL.Point(lnglat[0], lnglat[1])
   state.map.centerAndZoom(point, 16)
@@ -234,6 +262,7 @@ const regeoCode = (lonLat: string) => {
   // 再设置标记并获取地址
   setMarker(lnglat)
   getAddress(lnglat)
+  */
 }
 
 // TODO @super：lnglat 拼写
@@ -243,6 +272,8 @@ const regeoCode = (lonLat: string) => {
  * @param lnglat 经纬度数组
  */
 const getAddress = (lnglat: any) => {
+  // 百度地图暂时禁用，注释地址获取
+  /*
   const point = new window.BMapGL.Point(lnglat[0], lnglat[1])
 
   state.geocoder.getLocation(point, (result: any) => {
@@ -250,13 +281,15 @@ const getAddress = (lnglat: any) => {
       state.address = result.address
     }
   })
+  */
 }
 
 /** 显式暴露方法，使其可以被父组件访问 */
 defineExpose({ regeoCode })
 
 onMounted(() => {
-  loadMap()
+  // 百度地图暂时禁用，注释掉地图加载
+  // loadMap()
 })
 </script>
 
